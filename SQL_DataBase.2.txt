@@ -1,0 +1,138 @@
+CREATE TABLE Branch
+
+(   
+   Branch_id            CHAR (4),
+   Branche_name         VARCHAR (50)  not null,
+   Bank_code            CHAR (6),
+   PRIMARY KEY  (Branche_id),
+   FOREIGN KEY (Bank_code) 
+   REFERENCES BANK,
+);
+
+CREATE TABLE  BANK 
+
+(
+   Bank_code             CHAR (6)     not null,
+   Bank_name             VARCHAR (50) not null,
+   Bank_address          VARCHAR (50),
+   Bank_information      VARCHAR(20),
+   PRIMARY KEY (Bank_code),
+);
+
+CREATE TABLE ATM
+ 
+(
+   ATM_id                CHAR (15)     not null,
+   ATM_name              VARCHAR (50)  not null,
+   ATM_address           VARCHAR (50),
+   Bank_code             CHAR(6),
+   Card_number           CHAR (16),
+   PRIMARY KEY (ATM_id ),
+   FOREIGN KEY (Bank_code ) 
+   REFERENCES BANK,
+   FOREIGN KEY (Card_number)
+   REFERENCES CARD,
+);
+
+CREATE TABLE Customer
+ 
+(
+   Custmer_id            CHAR (4),
+   Customer_Gender       CHAR (1)      not null,
+   Customer_Bdate        DATE,
+   Customer_email        CHAR (50),
+   Customer_phone        INT (10),
+   Bank_code             CHAR(6),
+   Branch_name           VARCHAR (50),
+   PRIMARY KEY (Customer_id),
+   FOREIGN KEY (Bank_code) 
+   REFERENCES BANK,
+   FOREIGN KEY (Branch_name) 
+   REFERENCES BRANCH,
+);
+
+CREATE TABLE Account 
+
+(
+   Account_number        CHAR (6),
+   Account_type          VARCHAR(10)     not null,
+   Account_balance       VARCHAR (20),
+   Customer_id           CHAR(6),
+   PRIMARY KEY (Account_number),
+   FOREIGN KEY (customer_id) 
+   REFERENCES customer,
+);
+
+CREATE TABLE Card 
+
+(
+   Card_number           CHAR(16),
+   Card_CVC              CHAR(3),
+   Customer_id           CHAR(4),
+   Customer_name         VARCHAR (50),
+   Expire_date           DATE,
+   Card_type             VARCHAR (20) ,
+   Account_number        CHAR(6) ,
+   PRIMARY KEY (Card_number , Customer_id) ,
+   FOREIGN KEY (Customer_id)
+   REFERENCES Customer ,
+);
+
+CREATE TABLE Customer_login 
+
+(
+    Card_number           CHAR(16),
+    Pin_code              CHAR(6),
+    PRIMARY KEY (card_number, Pin_code),
+    FOREIGN KEY (Card_number) 
+    REFERENCES Card,
+);
+
+CREATE TABLE Branch_location 
+
+( 
+    BRANCH_id              CHAR (4),
+    Branch_location        VARCHAR(50), 
+    PRIMARY KEY (Branch_id , Branch_location) ,
+    FOREIGN KEY (Branch_id ) 
+    REFERENCES Branch ,
+);
+
+CREATE TABLE Customer_address 
+
+(
+    Customer_id             CHAR(4) ,
+    Address                 VARCHAR(50),
+    PRIMARY KEY (Customer_id , Address) ,
+    FOREIGN KEY (Customer_id)
+    REFERENCES Customer ,
+); 
+
+CREATE TABLE Has 
+
+(
+    Customer_id              CHAR(4) ,
+    Card_number              CHAR(16) ,
+    PRIMARY KEY (Customer_id , Card_number ),
+    FOREIGN KEY (Customer_id) 
+    REFERENCES Customer , 
+    FOREIGN KEY (Card_number) 
+    REFERENCES Card ,
+);
+ 
+CREATE TABLE Transfer 
+(
+    Account_number           CHAR (6),
+    Receiver_account_number  CHAR(6),
+    Sender_card_number       CHAR(16),
+    Sender_account_number    CHAR(6),
+    Amount                   CHAR(20),
+    Date                     Date ,
+    PRIMARY KEY (Account_number),
+    FOREIGN KEY (Account_number) 
+    REFERENCES Account ,
+);
+
+   
+   
+                                                                                                                                                                                                                                                                                            
